@@ -1,0 +1,3 @@
+Starting from scratch, create a backend "server.py", index.html, .css and .js for the following need:
+
+Local kiosk app that provide extremely simple interface with huge buttons to access very few menus. One will open https://www.facebook.com/messages, another will open https://mail.google.com/mail, one will open the native call application, and the latest will be a custom display based on backend and react. The custom display also opens once the tablet is inactive.
