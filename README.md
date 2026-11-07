@@ -4,6 +4,26 @@ A simple, touch-friendly kiosk page with shortcuts for Facebook Messages, Gmail,
 the phone dialer, and a custom React display. The display is fetched from the
 Python backend and opens automatically after one minute without interaction.
 
+# Setup
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+buildozer init # or track builozer.spec ?
+# WARNING: TODO: setup .spec for some architectures. Way too heavy.
+buildozer -v android debug
+```
+
+For Android startup and request logs, connect the device with USB debugging
+enabled and run:
+
+```sh
+buildozer android logcat
+```
+
+Look for `kiosk` log entries, including the server startup address and each
+HTTP request. A startup failure is logged with its traceback.
+
 ## Run
 
 Requires Python 3. Run:
