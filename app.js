@@ -48,6 +48,37 @@ function Display({ onBack }) {
   );
 }
 
+/* Starts google photos on the tablet succesfully
+adb shell am start -n     com.google.android.apps.photos/.home.HomeActivity
+Starting: Intent { cmp=com.google.android.apps.photos/.home.HomeActivity }
+*/
+// const openPhotos = () => {
+//     window.location.href =
+//         "intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.google.android.apps.photos;end";
+// };
+
+// const openPhotos = () => {
+//     window.location.href =
+//         "intent://#Intent;component=com.google.android.apps.photos/.home.HomeActivity;end";
+// };
+
+// const openPhotos = () => {
+//     window.location.href =
+//         "intent://launch#Intent;scheme=photos;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;component=com.google.android.apps.photos/.home.HomeActivity;end";
+// };
+
+function openPhotos() {
+  fetch('http://127.0.0.1:8001/launch-photos')
+    .then(response => {
+      if (!response.ok) {
+        console.error("Bridge server returned an error");
+      }
+    })
+    .catch(err => {
+      console.error("Failed to reach local Python bridge:", err);
+    });
+}
+
 function Home({ onOpenDisplay }) {
   return React.createElement(
     "section",
@@ -59,10 +90,11 @@ function Home({ onOpenDisplay }) {
         "a",
         {
           className: "menu-card facebook",
-          href: "https://www.facebook.com/messages/t/1175402965857225",
+          // href: "https://www.facebook.com/messages/t/1175402965857225",
+          href: "https://www.facebook.com/messages",
         },
         React.createElement("span", { className: "icon", "aria-hidden": "true" }, "f"),
-        React.createElement("strong", null, "Messages"),
+        React.createElement("strong", null, "Messenger"),
         React.createElement("small", null, "Facebook")
       ),
       React.createElement(
@@ -75,25 +107,34 @@ function Home({ onOpenDisplay }) {
         React.createElement("strong", null, "Email"),
         React.createElement("small", null, "Gmail")
       ),
+      // React.createElement(
+      //   "a",
+      //   {
+      //     className: "menu-card phone",
+      //     // "aria-label": "Call someone"
+      //   },
+      //   React.createElement("span", { className: "icon", "aria-hidden": "true" }, "☎"),
+      //   React.createElement("strong", null, "Call"),
+      // ),
+      // React.createElement(
+      //   "button",
+      //   { 
+      //     className: "menu-card display-link",
+      //     type: "button",
+      //     onClick: onOpenDisplay,
+      //   },
+      //   React.createElement("span", { className: "icon", "aria-hidden": "true" }, "☼"),
+      //   React.createElement("strong", null, "My display"),
+      //   React.createElement("small", null, "A little something for you")
+      // ),
       React.createElement(
         "a",
-        {
-          className: "menu-card phone",
-          // "aria-label": "Call someone"
-        },
-        React.createElement("span", { className: "icon", "aria-hidden": "true" }, "☎"),
-        React.createElement("strong", null, "Call"),
-      ),
-      React.createElement(
-        "button",
         { 
-          className: "menu-card display-link",
-          type: "button",
-          onClick: onOpenDisplay,
+          className: "menu-card photos",
+          href: "https://photos.google.com",
         },
         React.createElement("span", { className: "icon", "aria-hidden": "true" }, "☼"),
-        React.createElement("strong", null, "My display"),
-        React.createElement("small", null, "A little something for you")
+        React.createElement("strong", null, "Photos"),
       )
     ),
   );

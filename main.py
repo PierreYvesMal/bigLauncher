@@ -9,11 +9,13 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
 
-# from kivy.app import App
-
-
 ROOT = Path(__file__).resolve().parent
 
+# Resolve these once, while main.py runs on the app's main thread. Calling
+# autoclass() from the HTTP handler's Python thread makes JNI's FindClass use
+# the system classloader, which cannot see org.kivy.android.PythonActivity.
+# PythonActivity = autoclass('org.kivy.android.PythonActivity')
+# Intent = autoclass('android.content.Intent')
 
 class KioskHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -48,12 +50,17 @@ class KioskHandler(SimpleHTTPRequestHandler):
 
         super().do_GET()
 
-# class MyApp(App):
-    # def build(self):
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        super().end_headers()
+
 def main():
+
     parser = argparse.ArgumentParser(description="Run the tablet kiosk app.")
     parser.add_argument("--host", default="127.0.0.1", help="Interface to bind to.")
-    parser.add_argument("--port", type=int, default=8000, help="Port to listen on.")
+    parser.add_argument("--port", type=int, default=8001, help="Port to listen on.")
     args = parser.parse_args()
 
     server = ThreadingHTTPServer((args.host, args.port), KioskHandler)
@@ -68,6 +75,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # MyApp().run()
 
 __version__ = "1.0.3"

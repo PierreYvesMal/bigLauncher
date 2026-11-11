@@ -9,22 +9,13 @@ Python backend and opens automatically after one minute without interaction.
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-buildozer init # or track builozer.spec ?
-# WARNING: TODO: setup .spec for some architectures. Way too heavy.
-buildozer -v android debug
+```
+Since USB is plugged, it's easy to just drag n drop from nautilus to downloads, and seems more reliable. Otherwise:
+```
+scp index.html app.js styles.css main.py tablet:~/bigLauncher
 ```
 
-For Android startup and request logs, connect the device with USB debugging
-enabled and run:
-
-```sh
-buildozer android logcat
-```
-
-Look for `kiosk` log entries, including the server startup address and each
-HTTP request. A startup failure is logged with its traceback.
-
-## Run
+# Run
 
 Requires Python 3. Run:
 
@@ -32,17 +23,11 @@ Requires Python 3. Run:
 python3 server.py
 ```
 
-Then open `http://127.0.0.1:8000` in the tablet browser. To open the app on a
-tablet from another device on the same network, bind the server to the tablet's
-network interface with `python3 server.py --host 0.0.0.0`; use the tablet's LAN
-address in the browser.
+And open a chrome web page
 
-Set `KIOSK_DISPLAY_TITLE` and `KIOSK_DISPLAY_MESSAGE` environment variables to
-customize the display content. The call shortcut opens the native dialer with
-the number entered in its field. Facebook and Gmail open in the current tab;
-use the browser's Back button to return to the kiosk. This avoids creating a
-new tab every time a shortcut is selected.
+# Oldies
+## Debug
 
-The browser must stay open for the idle display to appear. A web page cannot
-wake a tablet after its operating system has put it to sleep; configure the
-tablet's kiosk/browser settings to keep the display awake if needed.
+```
+adb logcat | grep -i "I python"
+```
