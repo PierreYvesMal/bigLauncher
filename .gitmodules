@@ -1,0 +1,3 @@
+[submodule "Activities"]
+	path = Activities
+	url = https://github.com/PierreYvesMal/Activities.git
