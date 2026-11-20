@@ -171,16 +171,30 @@ function KioskApp() { // Triggered when below variable change via their setters
 
     let active = true;
     let wakeLock = null;
+    let wakeLockRequest = null;
 
     const requestWakeLock = async () => {
-      if (!active || document.visibilityState !== "visible") {
+      if (
+        !active ||
+        document.visibilityState !== "visible" ||
+        (wakeLock && !wakeLock.released) ||
+        wakeLockRequest
+      ) {
         return;
       }
 
       try {
-        wakeLock = await navigator.wakeLock.request("screen");
+        wakeLockRequest = navigator.wakeLock.request("screen");
+        const requestedWakeLock = await wakeLockRequest;
+        if (!active || document.visibilityState !== "visible") {
+          await requestedWakeLock.release();
+          return;
+        }
+        wakeLock = requestedWakeLock;
       } catch (error) {
         console.error("Could not keep the kiosk screen awake:", error);
+      } finally {
+        wakeLockRequest = null;
       }
     };
 
