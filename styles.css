@@ -63,8 +63,9 @@ a {
 .activity-preview {
   position: relative;
   width: 100%;
-  height: min(40vh, 430px);
-  min-height: 180px;
+  height: 40dvh;
+  /* height: min(40vh, 430px); */
+  /* min-height: 180px; */
   overflow: hidden;
   border-radius: 20px;
   background: #182238;
@@ -96,7 +97,8 @@ a {
 }
 
 .menu-card {
-  min-height: 190px;
+  /* min-height: 190px; */
+  min-height: 25dvh;
   border: 0;
   border-radius: 28px;
   padding: 26px;
@@ -268,17 +270,9 @@ a {
   }
 
   .menu-card {
-    min-height: 170px;
+    /* min-height: 170px; */
     border-radius: 22px;
     padding: 18px 12px;
-  }
-
-  .call-form {
-    flex-direction: column;
-  }
-
-  .call-form button {
-    min-height: 48px;
   }
 }
 
